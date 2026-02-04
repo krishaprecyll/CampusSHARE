@@ -1,4 +1,4 @@
-import { TrendingUp, DollarSign, Leaf, Users } from 'lucide-react';
+import { TrendingUp, PesoSign, Leaf, Users } from 'lucide-react';
 
 export default function Stats() {
   return (
