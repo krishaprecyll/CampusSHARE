@@ -149,7 +149,7 @@ function App() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Package className="h-8 w-8 text-blue-600" />
-              <h1 className="text-2xl font-bold text-slate-900">UniBorrow</h1>
+              <h1 className="text-2xl font-bold text-slate-900">CampusShare</h1>
             </div>
             <nav className="hidden md:flex items-center space-x-8">
               <a href="#browse" className="text-slate-700 hover:text-blue-600 font-medium transition-colors">Browse</a>
@@ -208,7 +208,7 @@ function App() {
 
       <section id="how-it-works" className="bg-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-slate-900 mb-4">How UniBorrow Works</h2>
+          <h2 className="text-3xl font-bold text-center text-slate-900 mb-4">How CampusShare Works</h2>
           <p className="text-center text-slate-600 mb-12 max-w-2xl mx-auto">
             A simple, secure way to rent and share items within your university community
           </p>
@@ -311,7 +311,7 @@ function App() {
             <div>
               <div className="flex items-center space-x-2 mb-4">
                 <Package className="h-6 w-6 text-blue-400" />
-                <h3 className="text-white font-bold text-lg">UniBorrow</h3>
+                <h3 className="text-white font-bold text-lg">CampusShare</h3>
               </div>
               <p className="text-sm">Share resources, build community, save money.</p>
             </div>
@@ -345,7 +345,7 @@ function App() {
           </div>
 
           <div className="border-t border-slate-800 pt-8 text-center text-sm">
-            <p>&copy; 2024 UniBorrow. Built for university communities.</p>
+            <p>&copy; 2024 CampusShare. Built for university communities.</p>
           </div>
         </div>
       </footer>
