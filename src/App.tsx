@@ -34,7 +34,7 @@ function App() {
         image_url: 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=800',
         condition: 'Excellent',
         available: true,
-        rental_fee: 45.00,
+        rental_fee: 50.00,
         rental_duration_days: 3,
         deposit_amount: 200.00,
         owner_id: '1'
@@ -47,7 +47,7 @@ function App() {
         image_url: 'https://images.pexels.com/photos/100582/pexels-photo-100582.jpeg?auto=compress&cs=tinysrgb&w=800',
         condition: 'Good',
         available: true,
-        rental_fee: 25.00,
+        rental_fee: 30.00,
         rental_duration_days: 1,
         deposit_amount: 100.00,
         owner_id: '2'
@@ -62,7 +62,7 @@ function App() {
         available: true,
         rental_fee: 20.00,
         rental_duration_days: 2,
-        deposit_amount: 50.00,
+        deposit_amount: 150.00,
         owner_id: '3'
       },
       {
@@ -73,9 +73,9 @@ function App() {
         image_url: 'https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg?auto=compress&cs=tinysrgb&w=800',
         condition: 'Like New',
         available: true,
-        rental_fee: 15.00,
+        rental_fee: 30.00,
         rental_duration_days: 30,
-        deposit_amount: 40.00,
+        deposit_amount: 100.00,
         owner_id: '4'
       },
       {
@@ -87,8 +87,8 @@ function App() {
         condition: 'Excellent',
         available: true,
         rental_fee: 35.00,
-        rental_duration_days: 7,
-        deposit_amount: 150.00,
+        rental_duration_days: 5,
+        deposit_amount: 200.00,
         owner_id: '5'
       },
       {
@@ -99,9 +99,9 @@ function App() {
         image_url: 'https://images.pexels.com/photos/5691618/pexels-photo-5691618.jpeg?auto=compress&cs=tinysrgb&w=800',
         condition: 'Good',
         available: true,
-        rental_fee: 18.00,
+        rental_fee: 20.00,
         rental_duration_days: 2,
-        deposit_amount: 60.00,
+        deposit_amount: 70.00,
         owner_id: '6'
       },
       {
@@ -112,9 +112,9 @@ function App() {
         image_url: 'https://images.pexels.com/photos/985635/pexels-photo-985635.jpeg?auto=compress&cs=tinysrgb&w=800',
         condition: 'Excellent',
         available: true,
-        rental_fee: 30.00,
+        rental_fee: 60.00,
         rental_duration_days: 1,
-        deposit_amount: 80.00,
+        deposit_amount: 150.00,
         owner_id: '7'
       },
       {
@@ -125,8 +125,8 @@ function App() {
         image_url: 'https://images.pexels.com/photos/371924/pexels-photo-371924.jpeg?auto=compress&cs=tinysrgb&w=800',
         condition: 'Excellent',
         available: false,
-        rental_fee: 40.00,
-        rental_duration_days: 7,
+        rental_fee: 60.00,
+        rental_duration_days: 5,
         deposit_amount: 300.00,
         owner_id: '8'
       }
