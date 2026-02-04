@@ -1,4 +1,4 @@
-import { Clock, DollarSign } from 'lucide-react';
+import { Clock } from 'lucide-react';
 
 interface Item {
   id: string;
@@ -50,7 +50,7 @@ export default function ItemCard({ item }: ItemCardProps) {
         <div className="flex items-center justify-between border-t pt-4">
           <div>
             <div className="flex items-center text-blue-600 font-bold text-xl">
-              <DollarSign className="h-5 w-5" />
+              <span>₱</span>
               <span>{item.rental_fee.toFixed(2)}</span>
             </div>
             <div className="flex items-center text-slate-500 text-xs mt-1">
@@ -73,7 +73,7 @@ export default function ItemCard({ item }: ItemCardProps) {
 
         {item.deposit_amount > 0 && (
           <div className="mt-3 text-xs text-slate-500">
-            Deposit: ${item.deposit_amount.toFixed(2)}
+            Deposit: ₱{item.deposit_amount.toFixed(2)}
           </div>
         )}
       </div>
