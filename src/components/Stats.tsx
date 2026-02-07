@@ -1,4 +1,4 @@
-import { TrendingUp, DollarSign, Leaf, Users } from 'lucide-react';
+import { TrendingUp, Leaf, Users } from 'lucide-react';
 
 export default function Stats() {
   return (
@@ -9,7 +9,7 @@ export default function Stats() {
             <div className="bg-green-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
               <DollarSign className="h-7 w-7 text-green-600" />
             </div>
-            <div className="text-3xl font-bold text-slate-900 mb-2">$125k+</div>
+            <div className="text-3xl font-bold text-slate-900 mb-2">₱125k+</div>
             <p className="text-slate-600 text-sm">Saved by Students</p>
           </div>
 
