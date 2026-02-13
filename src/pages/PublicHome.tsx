@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, MapPin, Shield, Clock, TrendingUp, Package, Users, Star, User, LogOut, ChevronDown } from 'lucide-react';
 import { useUser } from '../contexts/UserContext';
+import { supabase } from '../lib/supabase';
 import ItemCard from '../components/ItemCard';
 import CategoryFilter from '../components/CategoryFilter';
 import Hero from '../components/Hero';
@@ -41,114 +42,22 @@ export default function PublicHome() {
   }, []);
 
   useEffect(() => {
-    const mockItems: Item[] = [
-      {
-        id: '1',
-        name: 'Professional Camera Kit',
-        description: 'Canon EOS R6 with 24-70mm lens, perfect for photography projects',
-        category: 'Electronics',
-        image_url: 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=800',
-        condition: 'Excellent',
-        available: true,
-        rental_fee: 45.00,
-        rental_duration_days: 3,
-        deposit_amount: 200.00,
-        owner_id: '1'
-      },
-      {
-        id: '2',
-        name: 'Mountain Bike',
-        description: 'Trek X-Caliber 8, 29-inch wheels, great for trails',
-        category: 'Sports',
-        image_url: 'https://images.pexels.com/photos/100582/pexels-photo-100582.jpeg?auto=compress&cs=tinysrgb&w=800',
-        condition: 'Good',
-        available: true,
-        rental_fee: 25.00,
-        rental_duration_days: 1,
-        deposit_amount: 100.00,
-        owner_id: '2'
-      },
-      {
-        id: '3',
-        name: 'Camping Tent (4-Person)',
-        description: 'Spacious tent with rainfly, perfect for weekend adventures',
-        category: 'Outdoor',
-        image_url: 'https://images.pexels.com/photos/1687845/pexels-photo-1687845.jpeg?auto=compress&cs=tinysrgb&w=800',
-        condition: 'Good',
-        available: true,
-        rental_fee: 20.00,
-        rental_duration_days: 2,
-        deposit_amount: 50.00,
-        owner_id: '3'
-      },
-      {
-        id: '4',
-        name: 'Textbook: Calculus III',
-        description: 'Latest edition, excellent condition with practice problems',
-        category: 'Books',
-        image_url: 'https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg?auto=compress&cs=tinysrgb&w=800',
-        condition: 'Like New',
-        available: true,
-        rental_fee: 15.00,
-        rental_duration_days: 30,
-        deposit_amount: 40.00,
-        owner_id: '4'
-      },
-      {
-        id: '5',
-        name: 'Electric Guitar & Amp',
-        description: 'Fender Stratocaster with Marshall amplifier',
-        category: 'Music',
-        image_url: 'https://images.pexels.com/photos/1407322/pexels-photo-1407322.jpeg?auto=compress&cs=tinysrgb&w=800',
-        condition: 'Excellent',
-        available: true,
-        rental_fee: 35.00,
-        rental_duration_days: 7,
-        deposit_amount: 150.00,
-        owner_id: '5'
-      },
-      {
-        id: '6',
-        name: 'Power Drill Set',
-        description: 'DeWalt cordless drill with complete bit set',
-        category: 'Tools',
-        image_url: 'https://images.pexels.com/photos/5691618/pexels-photo-5691618.jpeg?auto=compress&cs=tinysrgb&w=800',
-        condition: 'Good',
-        available: true,
-        rental_fee: 18.00,
-        rental_duration_days: 2,
-        deposit_amount: 60.00,
-        owner_id: '6'
-      },
-      {
-        id: '7',
-        name: 'Formal Dress',
-        description: 'Navy blue evening gown, size 6, perfect for formal events',
-        category: 'Clothing',
-        image_url: 'https://images.pexels.com/photos/985635/pexels-photo-985635.jpeg?auto=compress&cs=tinysrgb&w=800',
-        condition: 'Excellent',
-        available: true,
-        rental_fee: 30.00,
-        rental_duration_days: 1,
-        deposit_amount: 80.00,
-        owner_id: '7'
-      },
-      {
-        id: '8',
-        name: 'Gaming Console (PS5)',
-        description: 'PlayStation 5 with two controllers and popular games',
-        category: 'Electronics',
-        image_url: 'https://images.pexels.com/photos/371924/pexels-photo-371924.jpeg?auto=compress&cs=tinysrgb&w=800',
-        condition: 'Excellent',
-        available: false,
-        rental_fee: 40.00,
-        rental_duration_days: 7,
-        deposit_amount: 300.00,
-        owner_id: '8'
-      }
-    ];
+    const fetchItems = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('items')
+          .select('*')
+          .order('created_at', { ascending: false });
 
-    setItems(mockItems);
+        if (error) throw error;
+        setItems(data || []);
+      } catch (error) {
+        console.error('Error fetching items:', error);
+        setItems([]);
+      }
+    };
+
+    fetchItems();
   }, []);
 
   const filteredItems = items.filter(item => {
