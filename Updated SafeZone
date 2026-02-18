@@ -1,5 +1,14 @@
-import { useState, useEffect } from 'react';
-import { Search, MapPin, Shield, Clock, TrendingUp, Package, Users, Star } from 'lucide-react';
+import { useState, useEffect, useMemo } from 'react';
+import {
+  Search,
+  MapPin,
+  Shield,
+  Clock,
+  Package,
+  Users,
+  Star
+} from 'lucide-react';
+
 import ItemCard from './components/ItemCard';
 import CategoryFilter from './components/CategoryFilter';
 import Hero from './components/Hero';
@@ -62,106 +71,44 @@ function App() {
       {
         id: '1',
         name: 'Professional Camera Kit',
-        description: 'Canon EOS R6 with 24-70mm lens, perfect for photography projects',
+        description: 'Canon EOS R6 with 24-70mm lens',
         category: 'Electronics',
-        image_url: 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=800',
+        image_url:
+          'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg',
         condition: 'Excellent',
         available: true,
-        rental_fee: 45.00,
+        rental_fee: 2500,
         rental_duration_days: 3,
-        deposit_amount: 200.00,
+        deposit_amount: 10000,
         owner_id: '1'
       },
       {
         id: '2',
         name: 'Mountain Bike',
-        description: 'Trek X-Caliber 8, 29-inch wheels, great for trails',
+        description: 'Trek X-Caliber 8, great for trails',
         category: 'Sports',
-        image_url: 'https://images.pexels.com/photos/100582/pexels-photo-100582.jpeg?auto=compress&cs=tinysrgb&w=800',
+        image_url:
+          'https://images.pexels.com/photos/100582/pexels-photo-100582.jpeg',
         condition: 'Good',
         available: true,
-        rental_fee: 25.00,
+        rental_fee: 1500,
         rental_duration_days: 1,
-        deposit_amount: 100.00,
+        deposit_amount: 5000,
         owner_id: '2'
       },
       {
         id: '3',
-        name: 'Camping Tent (4-Person)',
-        description: 'Spacious tent with rainfly, perfect for weekend adventures',
-        category: 'Outdoor',
-        image_url: 'https://images.pexels.com/photos/1687845/pexels-photo-1687845.jpeg?auto=compress&cs=tinysrgb&w=800',
-        condition: 'Good',
-        available: true,
-        rental_fee: 20.00,
-        rental_duration_days: 2,
-        deposit_amount: 50.00,
-        owner_id: '3'
-      },
-      {
-        id: '4',
-        name: 'Textbook: Calculus III',
-        description: 'Latest edition, excellent condition with practice problems',
-        category: 'Books',
-        image_url: 'https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg?auto=compress&cs=tinysrgb&w=800',
-        condition: 'Like New',
-        available: true,
-        rental_fee: 15.00,
-        rental_duration_days: 30,
-        deposit_amount: 40.00,
-        owner_id: '4'
-      },
-      {
-        id: '5',
-        name: 'Electric Guitar & Amp',
-        description: 'Fender Stratocaster with Marshall amplifier',
-        category: 'Music',
-        image_url: 'https://images.pexels.com/photos/1407322/pexels-photo-1407322.jpeg?auto=compress&cs=tinysrgb&w=800',
-        condition: 'Excellent',
-        available: true,
-        rental_fee: 35.00,
-        rental_duration_days: 7,
-        deposit_amount: 150.00,
-        owner_id: '5'
-      },
-      {
-        id: '6',
-        name: 'Power Drill Set',
-        description: 'DeWalt cordless drill with complete bit set',
-        category: 'Tools',
-        image_url: 'https://images.pexels.com/photos/5691618/pexels-photo-5691618.jpeg?auto=compress&cs=tinysrgb&w=800',
-        condition: 'Good',
-        available: true,
-        rental_fee: 18.00,
-        rental_duration_days: 2,
-        deposit_amount: 60.00,
-        owner_id: '6'
-      },
-      {
-        id: '7',
-        name: 'Formal Dress',
-        description: 'Navy blue evening gown, size 6, perfect for formal events',
-        category: 'Clothing',
-        image_url: 'https://images.pexels.com/photos/985635/pexels-photo-985635.jpeg?auto=compress&cs=tinysrgb&w=800',
-        condition: 'Excellent',
-        available: true,
-        rental_fee: 30.00,
-        rental_duration_days: 1,
-        deposit_amount: 80.00,
-        owner_id: '7'
-      },
-      {
-        id: '8',
         name: 'Gaming Console (PS5)',
-        description: 'PlayStation 5 with two controllers and popular games',
+        description: 'PlayStation 5 with two controllers',
         category: 'Electronics',
-        image_url: 'https://images.pexels.com/photos/371924/pexels-photo-371924.jpeg?auto=compress&cs=tinysrgb&w=800',
+        image_url:
+          'https://images.pexels.com/photos/371924/pexels-photo-371924.jpeg',
         condition: 'Excellent',
         available: false,
-        rental_fee: 40.00,
+        rental_fee: 2200,
         rental_duration_days: 7,
-        deposit_amount: 300.00,
-        owner_id: '8'
+        deposit_amount: 15000,
+        owner_id: '3'
       }
     ];
 
@@ -169,19 +116,13 @@ function App() {
       {
         id: '1',
         name: 'Student Union',
-        location: 'Main lobby, near information desk',
+        location: 'Main lobby',
         status: 'Active'
       },
       {
         id: '2',
         name: 'Library Entrance',
-        location: 'Main entrance, security desk area',
-        status: 'Active'
-      },
-      {
-        id: '3',
-        name: 'Recreation Center',
-        location: 'Front desk, monitored area',
+        location: 'Security desk area',
         status: 'Active'
       }
     ];
@@ -191,7 +132,7 @@ function App() {
         id: 'txn-1',
         itemName: 'Professional Camera Kit',
         itemCategory: 'Electronics',
-        rentalFee: 45.00,
+        rentalFee: 2500,
         rentalDate: 'Today, 2:00 PM',
         safeZoneId: '1',
         renter: {
@@ -208,50 +149,6 @@ function App() {
           reviews: 31,
           initials: 'MJ'
         }
-      },
-      {
-        id: 'txn-2',
-        itemName: 'Mountain Bike',
-        itemCategory: 'Sports',
-        rentalFee: 25.00,
-        rentalDate: 'Tomorrow, 10:00 AM',
-        safeZoneId: '2',
-        renter: {
-          id: 'student-103',
-          name: 'Alex Rodriguez',
-          rating: 4.7,
-          reviews: 18,
-          initials: 'AR'
-        },
-        owner: {
-          id: 'student-104',
-          name: 'Emma Thompson',
-          rating: 5.0,
-          reviews: 15,
-          initials: 'ET'
-        }
-      },
-      {
-        id: 'txn-3',
-        itemName: 'Gaming Console (PS5)',
-        itemCategory: 'Electronics',
-        rentalFee: 40.00,
-        rentalDate: 'Today, 5:30 PM',
-        safeZoneId: '3',
-        renter: {
-          id: 'student-105',
-          name: 'Jamie Lee',
-          rating: 4.6,
-          reviews: 12,
-          initials: 'JL'
-        },
-        owner: {
-          id: 'student-106',
-          name: 'David Kim',
-          rating: 4.8,
-          reviews: 28,
-          initials: 'DK'
-        }
       }
     ];
 
@@ -260,130 +157,117 @@ function App() {
     setTransactions(mockTransactions);
   }, []);
 
-  const filteredItems = items.filter(item => {
-    const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         item.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const filteredItems = useMemo(() => {
+    return items.filter((item) => {
+      const matchesSearch =
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchQuery.toLowerCase());
+
+      const matchesCategory =
+        selectedCategory === 'all' || item.category === selectedCategory;
+
+      return matchesSearch && matchesCategory;
+    });
+  }, [items, searchQuery, selectedCategory]);
+
+  const handleRent = (itemId: string) => {
+    alert(`Rental request sent for item ID: ${itemId}`);
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <header className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Package className="h-8 w-8 text-blue-600" />
-              <h1 className="text-2xl font-bold text-slate-900">CampusShare</h1>
-            </div>
-            <nav className="hidden md:flex items-center space-x-8">
-              <a href="#browse" className="text-slate-700 hover:text-blue-600 font-medium transition-colors">Browse</a>
-              <a href="#how-it-works" className="text-slate-700 hover:text-blue-600 font-medium transition-colors">How It Works</a>
-              <a href="#safe-zones" className="text-slate-700 hover:text-blue-600 font-medium transition-colors">Safe Zones</a>
-              <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium">
-                List an Item
-              </button>
-            </nav>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50 scroll-smooth">
+      {/* HEADER */}
+      <header className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Package className="h-8 w-8 text-blue-600" />
+            <h1 className="text-2xl font-bold text-slate-900">
+              CampusShare
+            </h1>
           </div>
+
+          <nav className="hidden md:flex items-center space-x-8">
+            <a href="#browse" className="hover:text-blue-600 transition">
+              Browse
+            </a>
+            <a href="#safe-zones" className="hover:text-blue-600 transition">
+              Safe Zones
+            </a>
+            <button className="bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-700 transition shadow-md hover:shadow-lg">
+              List an Item
+            </button>
+          </nav>
         </div>
       </header>
 
       <Hero />
-
       <Stats />
 
-      <section id="browse" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-slate-900 mb-4">Browse Available Items</h2>
-          <p className="text-slate-600 mb-6">Rent from fellow students, save money, and reduce waste</p>
+      {/* BROWSE SECTION */}
+      <section id="browse" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="mb-10">
+          <h2 className="text-3xl font-bold text-slate-900 mb-3">
+            Browse Available Items
+          </h2>
+          <p className="text-slate-600">
+            Rent from fellow students and save money.
+          </p>
+        </div>
 
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-5 w-5" />
-              <input
-                type="text"
-                placeholder="Search for items..."
-                className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <CategoryFilter
-            selectedCategory={selectedCategory}
-            onSelectCategory={setSelectedCategory}
+        {/* SEARCH */}
+        <div className="relative max-w-md mb-6">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 h-5 w-5" />
+          <input
+            type="text"
+            placeholder="Search items..."
+            className="w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <CategoryFilter
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
+        />
+
+        {/* GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
           {filteredItems.map((item) => (
-            <ItemCard key={item.id} item={item} />
+            <ItemCard
+              key={item.id}
+              item={item}
+              onRent={handleRent}
+            />
           ))}
         </div>
 
         {filteredItems.length === 0 && (
           <div className="text-center py-16">
             <Package className="h-16 w-16 text-slate-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-slate-700 mb-2">No items found</h3>
-            <p className="text-slate-500">Try adjusting your search or filters</p>
+            <h3 className="text-xl font-semibold text-slate-700 mb-2">
+              No items found
+            </h3>
+            <p className="text-slate-500">
+              Try adjusting your search.
+            </p>
           </div>
         )}
       </section>
 
-      <section id="how-it-works" className="bg-white py-20">
+      {/* SAFE ZONES */}
+      <section id="safe-zones" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-slate-900 mb-4">How CampusShare Works</h2>
-          <p className="text-center text-slate-600 mb-12 max-w-2xl mx-auto">
-            A simple, secure way to rent and share items within your university community
-          </p>
+          <h2 className="text-3xl font-bold text-center mb-12">
+            Scheduled Safe Zone Exchanges
+          </h2>
 
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Search className="h-8 w-8 text-blue-600" />
-              </div>
-              <h3 className="font-semibold text-lg mb-2">Browse Items</h3>
-              <p className="text-slate-600 text-sm">Search our catalog of available items from verified students</p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Clock className="h-8 w-8 text-green-600" />
-              </div>
-              <h3 className="font-semibold text-lg mb-2">Book & Pay</h3>
-              <p className="text-slate-600 text-sm">Choose your rental period and complete secure payment</p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MapPin className="h-8 w-8 text-orange-600" />
-              </div>
-              <h3 className="font-semibold text-lg mb-2">Safe Zone Pickup</h3>
-              <p className="text-slate-600 text-sm">Meet at designated safe zones across campus</p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-cyan-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Star className="h-8 w-8 text-cyan-600" />
-              </div>
-              <h3 className="font-semibold text-lg mb-2">Return & Review</h3>
-              <p className="text-slate-600 text-sm">Return the item and leave a review to build trust</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="safe-zones" className="py-20 bg-gradient-to-br from-blue-50 to-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-slate-900 mb-4">Scheduled Safe Zone Exchanges</h2>
-          <p className="text-center text-slate-600 mb-12 max-w-2xl mx-auto">
-            View all scheduled transactions at verified campus locations with both parties involved
-          </p>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 gap-8">
             {transactions.map((transaction) => {
-              const zone = safeZones.find(z => z.id === transaction.safeZoneId);
+              const zone = safeZones.find(
+                (z) => z.id === transaction.safeZoneId
+              );
+
               return zone ? (
                 <SafeZoneTransaction
                   key={transaction.id}
@@ -396,73 +280,9 @@ function App() {
         </div>
       </section>
 
-      <section className="bg-blue-600 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <Shield className="h-16 w-16 text-white mx-auto mb-6" />
-          <h2 className="text-3xl font-bold text-white mb-4">Trust & Safety First</h2>
-          <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
-            All users are verified with university credentials. Ratings and reviews help maintain a trustworthy community.
-          </p>
-          <div className="flex justify-center gap-8 flex-wrap">
-            <div className="text-center">
-              <Users className="h-8 w-8 text-blue-200 mx-auto mb-2" />
-              <p className="text-white font-semibold">Verified Students</p>
-            </div>
-            <div className="text-center">
-              <Shield className="h-8 w-8 text-blue-200 mx-auto mb-2" />
-              <p className="text-white font-semibold">Secure Payments</p>
-            </div>
-            <div className="text-center">
-              <Star className="h-8 w-8 text-blue-200 mx-auto mb-2" />
-              <p className="text-white font-semibold">Rating System</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <footer className="bg-slate-900 text-slate-300 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <Package className="h-6 w-6 text-blue-400" />
-                <h3 className="text-white font-bold text-lg">CampusShare</h3>
-              </div>
-              <p className="text-sm">Share resources, build community, save money.</p>
-            </div>
-
-            <div>
-              <h4 className="text-white font-semibold mb-4">Platform</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition-colors">Browse Items</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">List an Item</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">How It Works</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-white font-semibold mb-4">Support</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Safety Guidelines</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contact Us</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-white font-semibold mb-4">Legal</h4>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Community Guidelines</a></li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border-t border-slate-800 pt-8 text-center text-sm">
-            <p>&copy; 2024 CampusShare. Built for university communities.</p>
-          </div>
-        </div>
+      {/* FOOTER */}
+      <footer className="bg-slate-900 text-slate-400 py-10 text-center">
+        <p>© 2026 CampusShare. Built for university communities.</p>
       </footer>
     </div>
   );
