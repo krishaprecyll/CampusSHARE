@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../lib/supabase';
 
 interface AdminUser {
   id: string;
@@ -18,11 +18,6 @@ interface AdminContextType {
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
 
 export function AdminProvider({ children }: { children: ReactNode }) {
   const [admin, setAdmin] = useState<AdminUser | null>(null);
@@ -56,24 +51,26 @@ export function AdminProvider({ children }: { children: ReactNode }) {
 
     checkAuth();
 
-    const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN' && session?.user) {
-        const { data: userData } = await supabase
-          .from('users')
-          .select('id, email, full_name, role')
-          .eq('id', session.user.id)
-          .maybeSingle();
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+      (async () => {
+        if (event === 'SIGNED_IN' && session?.user) {
+          const { data: userData } = await supabase
+            .from('users')
+            .select('id, email, full_name, role')
+            .eq('id', session.user.id)
+            .maybeSingle();
 
-        if (userData?.role === 'admin') {
-          setAdmin(userData);
-          setError(null);
-        } else {
-          await supabase.auth.signOut();
-          setError('Unauthorized: Admin access required');
+          if (userData?.role === 'admin') {
+            setAdmin(userData);
+            setError(null);
+          } else {
+            await supabase.auth.signOut();
+            setError('Unauthorized: Admin access required');
+          }
+        } else if (event === 'SIGNED_OUT') {
+          setAdmin(null);
         }
-      } else if (event === 'SIGNED_OUT') {
-        setAdmin(null);
-      }
+      })();
     });
 
     return () => data?.subscription?.unsubscribe();
@@ -101,8 +98,9 @@ export function AdminProvider({ children }: { children: ReactNode }) {
           throw new Error('Unauthorized: Admin access required');
         }
       }
-    } catch (err: any) {
-      setError(err.message || 'Login failed');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Login failed';
+      setError(message);
       throw err;
     }
   };
@@ -112,8 +110,9 @@ export function AdminProvider({ children }: { children: ReactNode }) {
       await supabase.auth.signOut();
       setAdmin(null);
       setError(null);
-    } catch (err: any) {
-      setError(err.message || 'Logout failed');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Logout failed';
+      setError(message);
     }
   };
 

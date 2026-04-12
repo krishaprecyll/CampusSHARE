@@ -2,15 +2,10 @@ import { useState, useEffect } from 'react';
 import { Users, Package, TrendingUp, DollarSign, LogOut, Menu, X } from 'lucide-react';
 import { useAdmin } from '../contexts/AdminContext';
 import { useNavigate } from 'react-router-dom';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../lib/supabase';
 import AdminUsers from '../components/admin/AdminUsers';
 import AdminItems from '../components/admin/AdminItems';
 import AdminRentals from '../components/admin/AdminRentals';
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
 
 interface DashboardStats {
   totalUsers: number;

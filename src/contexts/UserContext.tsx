@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../lib/supabase';
 
 interface UserProfile {
   id: string;
@@ -16,6 +16,7 @@ interface UserProfile {
   bio: string | null;
   verified: boolean;
   role: string;
+  created_at?: string;
 }
 
 interface UserContextType {
@@ -44,11 +45,6 @@ interface RegisterData {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
-
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -71,12 +67,14 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
     checkAuth();
 
-    const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN' && session?.user) {
-        await fetchUserProfile(session.user.id);
-      } else if (event === 'SIGNED_OUT') {
-        setUser(null);
-      }
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+      (async () => {
+        if (event === 'SIGNED_IN' && session?.user) {
+          await fetchUserProfile(session.user.id);
+        } else if (event === 'SIGNED_OUT') {
+          setUser(null);
+        }
+      })();
     });
 
     return () => data?.subscription?.unsubscribe();
@@ -95,9 +93,9 @@ export function UserProvider({ children }: { children: ReactNode }) {
         setUser(userData);
         setError(null);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Failed to fetch user profile:', err);
-      setError(err.message || 'Failed to fetch profile');
+      setError(err instanceof Error ? err.message : 'Failed to fetch profile');
     }
   };
 
@@ -135,8 +133,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
         await fetchUserProfile(authData.user.id);
       }
-    } catch (err: any) {
-      setError(err.message || 'Registration failed');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Registration failed');
       throw err;
     }
   };
@@ -153,8 +151,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
       if (data.user) {
         await fetchUserProfile(data.user.id);
       }
-    } catch (err: any) {
-      setError(err.message || 'Login failed');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Login failed');
       throw err;
     }
   };
@@ -164,8 +162,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
       await supabase.auth.signOut();
       setUser(null);
       setError(null);
-    } catch (err: any) {
-      setError(err.message || 'Logout failed');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Logout failed');
     }
   };
 
@@ -182,8 +180,8 @@ export function UserProvider({ children }: { children: ReactNode }) {
       if (updateError) throw updateError;
 
       await fetchUserProfile(user.id);
-    } catch (err: any) {
-      setError(err.message || 'Profile update failed');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Profile update failed');
       throw err;
     }
   };
