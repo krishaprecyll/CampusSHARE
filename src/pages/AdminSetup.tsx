@@ -1,11 +1,6 @@
 import { useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
 import { AlertCircle, CheckCircle } from 'lucide-react';
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
+import { supabase } from '../lib/supabase';
 
 export default function AdminSetup() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -60,8 +55,8 @@ export default function AdminSetup() {
           supabase.auth.signOut();
         }, 2000);
       }
-    } catch (err: any) {
-      setMessage(err.message || 'Failed to setup admin user');
+    } catch (err: unknown) {
+      setMessage(err instanceof Error ? err.message : 'Failed to setup admin user');
       setStatus('error');
     }
   };
